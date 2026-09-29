@@ -1,0 +1,31 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f script.js
+          echo "All required files exist."
+
+      - name: Build / Package
+        run: |
+          mkdir dist
+          cp index.html style.css script.js dist/
+          echo "Build/package completed."
+          ls -la dist
